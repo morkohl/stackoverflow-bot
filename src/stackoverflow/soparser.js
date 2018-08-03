@@ -10,7 +10,7 @@ class StackoverflowQuestionParser {
         this.parser = parser;
     }
 
-    static async createResolver(url) {
+    static async createStackoverflowParser(url) {
         const body = await request(url);
         const parser = new Xray();
         return new StackoverflowQuestionParser(url, body, parser);
@@ -22,7 +22,7 @@ class StackoverflowQuestionParser {
     }
 
     async answers() {
-        this.answers = answer(this);
+        this.answers = await answer(this);
         return null;
     }
 
@@ -31,4 +31,4 @@ class StackoverflowQuestionParser {
     }
 }
 
-module.exports = StackoverflowQuestionParser.createResolver;
+module.exports = StackoverflowQuestionParser.createStackoverflowParser;
