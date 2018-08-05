@@ -9,10 +9,20 @@ class StackOverFlowQuestion {
         this.url = url;
     }
 
-    static async create(url) {
-        const parser = Xray();
+    static async create(input) {
+        let html;
+        if (input.startsWith('http')) {
+            try {
+                html = await request(input);
+            } catch (err) {
+                return Promise.reject(err);
+            }
+
+        } else {
+            html = input;
+        }
         try {
-            const html = await request(url);
+            const parser = Xray();
             const result = await parser(html, '.inner-content', {
                 question: {
                     title: '#question-header h1',
@@ -62,7 +72,7 @@ class StackOverFlowQuestion {
             });
 
             delete result.question.metadata;
-            return new StackOverFlowQuestion(result, parser, url);
+            return new StackOverFlowQuestion(result, parser, input);
         } catch(err) {
             console.error(err);
         }
