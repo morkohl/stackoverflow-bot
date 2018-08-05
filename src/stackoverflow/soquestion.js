@@ -17,6 +17,7 @@ class StackOverFlowQuestion {
                 question: {
                     title: '#question-header h1',
                     upvotes: '.vote-count-post | valueOf',
+                    //this is kind of ugly easiest solution would probably be to parse the mardown from '#question .post-text by ourselves...
                     questionTexts: [ '#question .post-text p,#question .post-text pre, #question .post-text p code' ],
                     questionMultiLineCodeText: ['#question .post-text pre'],
                     questionSingleLineCodeText: ['#question .post-text p code'],
