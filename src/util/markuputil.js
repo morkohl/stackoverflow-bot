@@ -27,8 +27,8 @@ module.exports = {
         singleLine: (string) => {
             return '`' + string + '`'
         },
-        multiLineJavascript: (string) => {
-            return '```js\n' + string + '\n```'
+        multiLineImplLanguage: (string, languageAbbreviation) => {
+            return '```' + languageAbbreviation + '\n' + string + '\n```'
         }
     }
 };
