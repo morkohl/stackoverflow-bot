@@ -1,9 +1,16 @@
-const soquestion = require('./stackoverflow/soquestion');
+const Discord = require('discord.js');
+const config = require('./config');
+const commandExecuter = require('./commands/commandExecutor');
 
-async function test() {
-    const url = '.';
-    const question = await soquestion(url);
-    console.log(await question.formatOutput());
-}
+const client = new Discord.Client();
 
-test();
+client.on('ready', () => {
+    console.log("Ready");
+});
+
+client.on('message', async msg => {
+    await commandExecuter(msg);
+    //do something else afterwards..
+});
+
+client.login(config.discord.token);
