@@ -1,7 +1,4 @@
-const request = require('request-promise');
-const markupUtils = require('../util/markuputil');
 const Xray = require('./xray');
-
 
 class StackOverFlowSearcher {
 
@@ -28,6 +25,7 @@ class StackOverFlowSearcher {
                 question: '.summary .result-link a@title',
                 url: '.summary .result-link a@href | cutRef'
             }]);
+
             return new StackOverFlowSearcher(result, parser, searchString, options)
         } catch (err) {
             Promise.reject(err);

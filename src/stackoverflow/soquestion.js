@@ -9,17 +9,17 @@ class StackOverFlowQuestion {
         this.url = url;
     }
 
-    static async create(input, options) {
+    static async create(url, options) {
         let html;
-        if (input.startsWith('http')) {
+        if (url.startsWith('http')) {
             try {
-                html = await request(input);
+                html = await request(url);
             } catch (err) {
                 return Promise.reject(err);
             }
 
         } else {
-            html = input;
+            html = url;
         }
 
         try {
@@ -74,7 +74,8 @@ class StackOverFlowQuestion {
             });
 
             delete result.question.metadata;
-            return new StackOverFlowQuestion(result, parser, input);
+
+            return new StackOverFlowQuestion(result, parser, url);
         } catch(err) {
             Promise.reject(err);
         }

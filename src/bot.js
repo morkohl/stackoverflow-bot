@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
-const config = require('./config');
 const commandParser = require('./commands/commandParser');
+const errorHandler = require('./util/errorHandler');
 
 const client = new Discord.Client();
 
@@ -9,7 +9,21 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
-    await commandParser.processCommands(msg);
+    try {
+        await commandParser.processCommands(msg);
+    } catch(err) {
+        await errorHandler(err);
+    }
 });
 
-client.login(config.discord.token);
+client.on('error', async err => {
+    await errorHandler(err);
+});
+
+module.exports = async (config) => {
+    try {
+        await client.login(config.discord.token);
+    } catch(err) {
+        await errorHandler(err);
+    }
+};
