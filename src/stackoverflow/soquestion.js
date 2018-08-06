@@ -9,7 +9,7 @@ class StackOverFlowQuestion {
         this.url = url;
     }
 
-    static async create(input) {
+    static async create(input, options) {
         let html;
         if (input.startsWith('http')) {
             try {
@@ -21,8 +21,9 @@ class StackOverFlowQuestion {
         } else {
             html = input;
         }
+
         try {
-            const parser = Xray();
+            const parser = Xray(options);
             const result = await parser(html, '.inner-content', {
                 question: {
                     title: '#question-header h1',
@@ -75,7 +76,7 @@ class StackOverFlowQuestion {
             delete result.question.metadata;
             return new StackOverFlowQuestion(result, parser, input);
         } catch(err) {
-            console.error(err);
+            Promise.reject(err);
         }
     }
 

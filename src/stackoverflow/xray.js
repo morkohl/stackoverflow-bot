@@ -15,6 +15,12 @@ module.exports = (options) => {
         },
         isAccepted: function (value) {
             return !!value;
+        },
+        valueOrNone: function (value) {
+            return value && typeof value === 'string' ? Number(/\d+/.exec(value)) : 'unknown';
+        },
+        cutRef: function (value) {
+            return /^[A-z]+:\/\/[A-z]+\.[A-z]+\/[A-z]+\/\d+\/[^=\/]+/.exec(value)[0];
         }
     };
 

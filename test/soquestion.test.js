@@ -17,6 +17,7 @@ describe('StackOverFlowQuestion', () => {
 
             it('should get the question and the correct attributes', () => {
                 expect(testquestion).to.not.equal(undefined);
+                expect(testquestion.result).to.not.equal(undefined);
                 expect(testquestion.result.question.title).to.equal('Creating arrays in Javascript');
                 expect(testquestion.result.question.questionTexts.length).to.be.at.least(2);
                 expect(testquestion.result.question.tags).to.deep.equal(['javascript', 'arrays', 'multidimensional-array']);
@@ -46,7 +47,7 @@ describe('StackOverFlowQuestion', () => {
     describe('From HTML', () => {
         let testquestion;
         before(async () => {
-            const htmlText = fs.readFileSync(__dirname + '/resources/stackoverflow.test-site.txt').toString();
+            const htmlText = fs.readFileSync(__dirname + '/resources/soquestion.test-site.txt').toString();
             testquestion = await soquestion(htmlText);
         });
 
