@@ -33,12 +33,9 @@ class StackOverFlowSearcher {
     }
 
     async formatOutput() {
-        let output = `--- FOUND ${this.result.length} QUESTIONS ---`;
-        for(let i = 0; i <= 5; i++) {
-            output = output + `${i + 1} 
-            | Votes: ${this.result[i].votes} 
-            | Answers: ${this.result[i].answerCount}
-            | "${this.result[i].question}"`;
+        let output = `--- FOUND ${this.result.length} QUESTIONS ---\n`;
+        for(let i = 0; i < 5; i++) {
+            output = output + `${i + 1} | Votes: ${this.result[i].votes} | Answers: ${this.result[i].answerCount} | "${this.result[i].question}"\n`;
         }
         return output;
     }
