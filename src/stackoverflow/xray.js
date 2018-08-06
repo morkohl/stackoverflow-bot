@@ -20,7 +20,12 @@ module.exports = (options) => {
             return value && typeof value === 'string' ? Number(/\d+/.exec(value)) : 'unknown';
         },
         cutRef: function (value) {
+            if(options.isHTML) {
+                const regexp = /[A-z]+\/\d+\/[^=\/]+/;
+                return `https://stackoverflow.com/${regexp.exec(value)[0]}`
+            }
             return /^[A-z]+:\/\/[A-z]+\.[A-z]+\/[A-z]+\/\d+\/[^=\/]+/.exec(value)[0];
+
         }
     };
 

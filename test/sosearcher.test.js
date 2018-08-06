@@ -36,7 +36,7 @@ describe('StackOverFlowSearcher', () => {
             let testResult;
             before(async () => {
                 const htmlText = fs.readFileSync(__dirname + '/resources/sosearcher.test-site.txt').toString();
-                testResult = await sosearcher(htmlText);
+                testResult = await sosearcher(htmlText, { isHTML: true });
             });
 
             it('should find something', () => {
@@ -56,7 +56,7 @@ describe('StackOverFlowSearcher', () => {
                 expect(testResult.result[0].votes).to.equal(5979);
                 expect(testResult.result[0].answerCount).to.equal('unknown');
                 expect(testResult.result[0].question).to.equal('For-each over an array in JavaScript?');
-                expect(testResult.result[0].url).to.equal('https://stackoverflow.com/questions/9329446/for-each-over-an-array-in-javascript/9329476#9329476');
+                expect(testResult.result[0].url).to.equal('https://stackoverflow.com/questions/9329446/for-each-over-an-array-in-javascript');
             });
 
             it('should contain the correct attributes for a question class', () => {

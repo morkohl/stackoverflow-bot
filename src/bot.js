@@ -10,7 +10,6 @@ client.on('ready', () => {
 
 client.on('message', async msg => {
     await commandParser.processCommands(msg);
-    //do something else afterwards..
 });
 
 client.login(config.discord.token);
