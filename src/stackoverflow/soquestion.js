@@ -81,7 +81,7 @@ class StackOverFlowQuestion {
         }
     }
 
-    async formatOutput() {
+    formatOutput() {
         let output = `--- ${this.result.question.title} ---\n`;
         output = output + this.result.question.questionTexts.join('\n');
         output = output + `\n--- ACCEPTED ANSWER ---\n`;

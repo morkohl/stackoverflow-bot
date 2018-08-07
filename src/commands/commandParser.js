@@ -4,7 +4,9 @@ const commands = require('./commands');
 
 exports.processCommands = async function (msg) {
      const parsedCommand = await findWithArgs(msg);
-     if(parsedCommand) parsedCommand.command.exec(msg, parsedCommand.args);
+     if(parsedCommand) {
+         await parsedCommand.command.exec(msg, parsedCommand.args);
+     }
      return parsedCommand;
 };
 

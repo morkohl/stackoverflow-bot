@@ -19,12 +19,16 @@ class StackOverFlowSearcher {
 
         try {
             const parser = Xray(options);
-            const result = await parser(html, '.question-summary', [{
+            let result = await parser(html, '.question-summary', [{
                 votes: '.vote strong | valueOf',
                 answerCount: '.answered-accepted | valueOrNone',
-                question: '.summary .result-link a@title',
-                url: '.summary .result-link a@href | cutRef'
+                question: '.summary h3 a',
+                url: '.summary h3 a@href | cutRef'
             }]);
+
+            if(result.length > 5) {
+                result = result.splice(0, 5);
+            }
 
             return new StackOverFlowSearcher(result, parser, searchString, options)
         } catch (err) {
@@ -32,7 +36,7 @@ class StackOverFlowSearcher {
         }
     }
 
-    async formatOutput() {
+    formatOutput() {
         let output = `--- FOUND ${this.result.length} QUESTIONS ---\n`;
         for(let i = 0; i < 5; i++) {
             output = output + `${i + 1} | Votes: ${this.result[i].votes} | Answers: ${this.result[i].answerCount} | "${this.result[i].question}"\n`;
