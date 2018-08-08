@@ -27,7 +27,7 @@ describe('CommandExecutor', () => {
 
             it('should get the command arguments', async() => {
                 const parsedCommand = await commandParser.find(discordMessageMock);
-                expect(parsedCommand.args).to.equal('how to sort arrays?');
+                expect(parsedCommand.suppliedArgs).to.equal('how to sort arrays?');
             } )
         });
 

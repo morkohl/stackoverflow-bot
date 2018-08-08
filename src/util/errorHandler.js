@@ -1,24 +1,19 @@
-class BotError {
-    constructor({
-        error,
-        message = "Unexpected Error",
-        errors = [],
-        stack = null
-    }) {
-        this.name = "BotError";
-        this.error = error;
-        this.message = message;
-        this.errors = errors;
-        this.stack = stack ? stack :  Error.captureStacktrace(this, BotError);
-    }
-}
+const BotError = require('./BotError');
+const CommandError = require('./CommandError');
+const client = require('../bot');
+const logger = require('./logger');
 
 async function handleError(err) {
-    if(!(err instanceof BotError)) {
+    if (!(err instanceof BotError)) {
         err = createFrom(err);
     }
 
-    console.error(`[${new Date()}] ERROR: ${err.message}, ${err.stack}`);
+    if (err instanceof CommandError) {
+        await err.discordMessage.channel.send(err.replyMessage);
+    } else {
+        const logMessage = `${err.error.name}, ${err.message}, ${err.stack}`;
+        err.warn ? logger.warn(logMessage) : logger.error(logMessage);
+    }
 }
 
 function createFrom(err) {

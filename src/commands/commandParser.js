@@ -1,11 +1,20 @@
 const config = require('../config');
 const commandNameRegex = new RegExp(`^(${config.discord.prefix})([A-z]+)`);
 const commands = require('./commands');
+const CommandError = require('../util/CommandError');
 
 exports.processCommands = async function (msg) {
-     const parsedCommand = await findWithArgs(msg);
+    const parsedCommand = await findWithArgs(msg);
      if(parsedCommand) {
-         await parsedCommand.command.exec(msg, parsedCommand.args);
+         //check if the chosen command requires args and if they were supplied
+        if (parsedCommand.command.args && !parsedCommand.suppliedArgs) {
+            throw new CommandError(":warning: Incorrect command usage.", msg)
+        }
+        try {
+            await parsedCommand.command.exec(msg, parsedCommand.suppliedArgs);
+        } catch(err) {
+
+        }
      }
      return parsedCommand;
 };
@@ -23,7 +32,7 @@ async function findWithArgs(msg) {
                 const foundCommand = commands[commandName];
                 return {
                     command: foundCommand,
-                    args: args
+                    suppliedArgs: args
                 };
             }
         }

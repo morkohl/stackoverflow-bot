@@ -6,7 +6,6 @@ const sosearcher = require('../stackoverflow/sosearcher');
 module.exports = {
     help: {
         name: 'help',
-        args: [],
         exec: async function (msg, args) {
         },
     },

@@ -30,3 +30,5 @@ module.exports = async (config) => {
 };
 
 client.login(config.discord.token);
+
+module.exports = client;
