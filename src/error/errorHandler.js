@@ -1,7 +1,7 @@
 const BotError = require('./BotError');
 const CommandError = require('./CommandError');
 const client = require('../bot');
-const logger = require('./logger');
+const logger = require('../util/logger');
 
 async function handleError(err) {
     if (!(err instanceof BotError)) {

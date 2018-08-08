@@ -1,12 +1,13 @@
 const Discord = require('discord.js');
 const commandParser = require('./commands/commandParser');
-const errorHandler = require('./util/errorHandler');
+const errorHandler = require('./error/errorHandler');
 const config = require('./config');
+const logger = require('./util/logger');
 
 const client = new Discord.Client();
 
 client.on('ready', () => {
-    console.log("Ready");
+    logger.info("Ready!")
 });
 
 client.on('message', async msg => {
