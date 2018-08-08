@@ -8,3 +8,5 @@ class CommandError {
         this.discordMessage = message;
     }
 }
+
+module.exports = CommandError;
