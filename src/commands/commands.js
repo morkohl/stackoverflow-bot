@@ -2,9 +2,9 @@ const Discord = require('discord.js');
 const soquestion = require('../stackoverflow/soquestion');
 const sosearcher = require('../stackoverflow/sosearcher');
 
-//Add args to each command so we can verify in commandparser if they exist?
 module.exports = {
     help: {
+        args: null,
         name: 'help',
         exec: async function (msg, args) {
         },
@@ -16,13 +16,11 @@ module.exports = {
             if (args.trim() === '') {
                 return await msg.reply("Incorrect command usage. Add a search statement.")
             }
-            //start typing...
-            //do something if no results found
             const searchResult = await sosearcher(args);
 
-            await msg.reply(searchResult.formatOutput());
+            await msg.channel.send(searchResult.formatOutput());
 
-            const messageCollector = new Discord.MessageCollector(msg.channel, m => msg.author.id === m.author.id, { time: 10000, maxMatches: 1 });
+            const messageCollector = new Discord.MessageCollector(msg.channel, m => msg.author.id === m.author.id, { time: 30000, maxMatches: 1 });
 
             messageCollector.on("collect" , async collectedMsg => {
                 let selectionIndex;
@@ -30,7 +28,7 @@ module.exports = {
                 try {
                     selectionIndex = Number(collectedMsg.content - 1);
                 } catch(err) {
-                    return await msg.reply(`"${collectedMsg.content}" is not a number.`)
+                    return await msg.channel.send(`"${collectedMsg.content}" is not a number.`)
                 }
 
                 if(searchResult.result[selectionIndex]) {
@@ -38,7 +36,7 @@ module.exports = {
                     return await msg.reply(selection.formatOutput())
                 }
 
-                await msg.reply('Please chose a number from the list above...')
+                await msg.channel.send('Please chose a number from the list above...')
             });
         }
     }

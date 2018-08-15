@@ -1,11 +1,13 @@
+const markupUtils = require('../util/markuputil');
+
 class CommandError {
     constructor({
-                    replyMessage = "There was a problem registering your command",
-                    discordMessage,
-                }) {
+            discordMessage,
+            replyMessage = 'There was a problem processing your command!'
+        }) {
         this.name = "CommandError";
-        this.replyMessage = replyMessage;
-        this.discordMessage = message;
+        this.replyMessage = `:warning: ${markupUtils.fat(replyMessage)} :warning:`;
+        this.discordMessage = discordMessage;
     }
 }
 

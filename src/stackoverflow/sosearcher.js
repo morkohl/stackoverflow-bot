@@ -1,4 +1,5 @@
 const Xray = require('./xray');
+const markupUtils = require('../util/markuputil');
 
 class StackOverFlowSearcher {
 
@@ -22,7 +23,7 @@ class StackOverFlowSearcher {
             let result = await parser(html, '.question-summary', [{
                 votes: '.vote strong | valueOf',
                 answerCount: '.answered-accepted | valueOrNone',
-                question: '.summary h3 a',
+                question: '.summary h3 a | trim',
                 url: '.summary h3 a@href | cutRef'
             }]);
 
@@ -37,9 +38,12 @@ class StackOverFlowSearcher {
     }
 
     formatOutput() {
-        let output = `--- FOUND ${this.result.length} QUESTIONS ---\n`;
+        let output = `--- FOUND ${this.result.length} QUESTIONS ---`;
         for(let i = 0; i < 5; i++) {
-            output = output + `${i + 1} | Votes: ${this.result[i].votes} | Answers: ${this.result[i].answerCount} | "${this.result[i].question}"\n`;
+            output = output + `\n${markupUtils.fat(i + 1)} `;
+            output = output + `| Answers: ${markupUtils.fat(this.result[i].answerCount)} `;
+            output = output + `| Votes: ${markupUtils.fat(this.result[i].votes)} `;
+            output = output + `| "${this.result[i].question}"`
         }
         return output;
     }

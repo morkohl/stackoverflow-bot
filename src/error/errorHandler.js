@@ -1,10 +1,9 @@
 const BotError = require('./BotError');
 const CommandError = require('./CommandError');
-const client = require('../bot');
 const logger = require('../util/logger');
 
 async function handleError(err) {
-    if (!(err instanceof BotError)) {
+    if (!(err instanceof BotError || err instanceof CommandError)) {
         err = createFrom(err);
     }
 
@@ -18,9 +17,8 @@ async function handleError(err) {
 
 function createFrom(err) {
     return new BotError({
-        err: err,
+        error: err,
         message: err.message,
-        errors: err.errors,
         stack: err.stack
     })
 }

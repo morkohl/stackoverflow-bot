@@ -1,5 +1,6 @@
 const chai = require('chai');
 const expect = chai.expect;
+const CommandError = require('../src/error/CommandError');
 const prefix = require('../src/config').discord.prefix;
 
 const commandParser = require('../src/commands/commandParser');
@@ -40,9 +41,13 @@ describe('CommandExecutor', () => {
                     }
                 });
 
-                it('should return undefined', async () => {
-                    const parsedCommand = await commandParser.find(discordMessageMock);
-                    expect(parsedCommand).to.equal(undefined);
+                it('should throw a command error', async () => {
+                    try {
+                        await commandParser.find(discordMessageMock);
+                        throw new Error("No error thrown as expected!");
+                    } catch(err) {
+                        expect(err).to.be.an.instanceof(CommandError)
+                    }
                 })
             });
 
@@ -54,9 +59,32 @@ describe('CommandExecutor', () => {
                     }
                 });
 
-                it('should return undefined', async () => {
-                    const parsedCommand = await commandParser.find(discordMessageMock);
-                    expect(parsedCommand).to.equal(undefined);
+                it('should throw a command error', async () => {
+                    try {
+                        await commandParser.find(discordMessageMock);
+                        throw new Error("No error thrown as expected!");
+                    } catch(err) {
+                        expect(err).to.be.an.instanceof(CommandError)
+                    }
+                })
+            });
+
+            describe('No command name', () => {
+                let discordMessageMock;
+                before(async () => {
+                    discordMessageMock = {
+                        content: prefix
+                    }
+                });
+
+                it('should throw a command error', async () => {
+                    try {
+                        await commandParser.find(discordMessageMock);
+                        throw new Error("No error thrown as expected!");
+
+                    } catch(err) {
+                        expect(err).to.be.an.instanceof(CommandError)
+                    }
                 })
             });
         })

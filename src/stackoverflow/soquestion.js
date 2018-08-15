@@ -28,7 +28,7 @@ class StackOverFlowQuestion {
                 question: {
                     title: '#question-header h1',
                     upvotes: '.vote-count-post | valueOf',
-                    //this is kind of ugly easiest solution would probably be to parse the mardown from '#question .post-text by ourselves...
+                    //this is kind of ugly easiest solution would probably be to parse the markdown from '#question .post-text by ourselves...
                     questionTexts: [ '#question .post-text p,#question .post-text pre, #question .post-text p code' ],
                     questionMultiLineCodeText: ['#question .post-text pre'],
                     questionSingleLineCodeText: ['#question .post-text p code'],
@@ -82,10 +82,11 @@ class StackOverFlowQuestion {
     }
 
     formatOutput() {
-        let output = `--- ${this.result.question.title} ---\n`;
+        let output = `--- ${markupUtils.crossed_fat(this.result.question.title)} ---\n`;
         output = output + this.result.question.questionTexts.join('\n');
         output = output + `\n--- ACCEPTED ANSWER ---\n`;
         output = output + this.result.answers[0].answerTexts.join('\n');
+        output = output + `\n${this.url}`;
         return output;
     }
 }

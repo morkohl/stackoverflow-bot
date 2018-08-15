@@ -3,7 +3,7 @@ const fs = require('fs');
 const rootPath = require('app-root-path').path;
 const logPath = `${rootPath}/log`;
 
-function getLogger() {
+function logger() {
     if(!fs.existsSync(logPath)) {
         fs.mkdirSync(logPath);
     }
@@ -26,6 +26,6 @@ function getLogger() {
             })
         ]
     });
-};
+}
 
-module.exports = getLogger();
+module.exports = logger();
