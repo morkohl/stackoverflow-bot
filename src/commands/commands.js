@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const soquestion = require('../stackoverflow/soquestion');
 const sosearcher = require('../stackoverflow/sosearcher');
 
-//Add args to each command so we can verify in commandparser if they exist?
 module.exports = {
     help: {
         name: 'help',
