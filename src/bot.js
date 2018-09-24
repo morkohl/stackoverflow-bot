@@ -13,7 +13,7 @@ client.on('ready', () => {
 client.on('message', async msg => {
     try {
         await commandParser.processCommands(msg);
-    } catch(err) {
+    } catch (err) {
         await errorHandler(err);
     }
 });
@@ -25,7 +25,7 @@ client.on('error', async err => {
 module.exports = async (config) => {
     try {
         await client.login(config.discord.token);
-    } catch(err) {
+    } catch (err) {
         await errorHandler(err);
     }
 };

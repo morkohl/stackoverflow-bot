@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const safeEval = require('notevil');
 const soquestion = require('../stackoverflow/soquestion');
 const sosearcher = require('../stackoverflow/sosearcher');
 
@@ -23,16 +24,16 @@ module.exports = {
 
             const messageCollector = new Discord.MessageCollector(msg.channel, m => msg.author.id === m.author.id, { time: 10000, maxMatches: 1 });
 
-            messageCollector.on("collect" , async collectedMsg => {
+            messageCollector.on("collect", async collectedMsg => {
                 let selectionIndex;
                 let selection;
                 try {
                     selectionIndex = Number(collectedMsg.content - 1);
-                } catch(err) {
+                } catch (err) {
                     return await msg.reply(`"${collectedMsg.content}" is not a number.`)
                 }
 
-                if(searchResult.result[selectionIndex]) {
+                if (searchResult.result[selectionIndex]) {
                     selection = await soquestion(searchResult.result[selectionIndex].url);
                     return await msg.reply(selection.formatOutput())
                 }
@@ -40,5 +41,14 @@ module.exports = {
                 await msg.reply('Please chose a number from the list above...')
             });
         }
+    },
+    javascript: {
+        name: 'javascript',
+        args: [],
+        exec: async function (msg, args) {
+            const result = safeEval(args);
+            await msg.reply("Result: " + result);
+        }
     }
+
 };

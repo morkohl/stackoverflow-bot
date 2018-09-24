@@ -1,6 +1,7 @@
 module.exports = {
   discord: {
-    token: 'YOUR_TOKEN',
-    prefix: 's!'
+    token: 'YOUR_TOKEN_HERE',
+    prefix: 's!',
+    javascript: 'js>'
   }
 }

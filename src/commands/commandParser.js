@@ -9,9 +9,11 @@ exports.processCommands = async function (msg) {
 
     if (parsedCommand) {
         //check if the chosen command requires args and if they were supplied
-        if (parsedCommand.command.args && !parsedCommand.suppliedArgs) {
-            throw new CommandError(":warning: Incorrect command usage.", msg)
-        }
+        // if (parsedCommand.command.args && !parsedCommand.suppliedArgs) {
+        //     throw new CommandError(":warning: Incorrect command usage.", msg)
+        // }
+
+        // Sends it to the commands.js exec method
         await parsedCommand.command.exec(msg, parsedCommand.suppliedArgs);
     }
 
@@ -34,6 +36,19 @@ async function findWithArgs(msg) {
                     suppliedArgs: args
                 };
             }
+        }
+    }
+
+    if (msg.content.startsWith(config.discord.javascript)) {
+        const args = msg.content.substring(3);
+        const allCommands = Object.keys(commands);
+
+        if (allCommands.includes('javascript')) {
+            const foundCommand = commands['javascript'];
+            return {
+                command: foundCommand,
+                suppliedArgs: args
+            };
         }
     }
 }
