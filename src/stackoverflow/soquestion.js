@@ -29,10 +29,10 @@ class StackOverFlowQuestion {
                     title: '#question-header h1',
                     upvotes: '.vote-count-post | valueOf',
                     //this is kind of ugly easiest solution would probably be to parse the mardown from '#question .post-text by ourselves...
-                    questionTexts: [ '#question .post-text p,#question .post-text pre, #question .post-text p code' ],
+                    questionTexts: ['#question .post-text p,#question .post-text pre, #question .post-text p code'],
                     questionMultiLineCodeText: ['#question .post-text pre'],
                     questionSingleLineCodeText: ['#question .post-text p code'],
-                    tags: parser(html, '.post-taglist', [ '.post-tag' ]),
+                    tags: parser(html, '.post-taglist', ['.post-tag']),
                     metadata: ['#qinfo b'],
                 },
                 answers: parser(html, '.answer', [{
@@ -76,16 +76,25 @@ class StackOverFlowQuestion {
             delete result.question.metadata;
 
             return new StackOverFlowQuestion(result, parser, url);
-        } catch(err) {
+        } catch (err) {
             Promise.reject(err);
         }
     }
 
     formatOutput() {
-        let output = `--- ${this.result.question.title} ---\n`;
+        let output = `--- ${markupUtils.crossed_fat(this.result.question.title)} ---\n`;
         output = output + this.result.question.questionTexts.join('\n');
-        output = output + `\n--- ACCEPTED ANSWER ---\n`;
+        output = output + `\n\n${markupUtils.crossed_fat('--- ACCEPTED ANSWER ---')}\n`;
         output = output + this.result.answers[0].answerTexts.join('\n');
+
+        const urlFooter = `\n\n${markupUtils.fat('READ MORE AT:')} ${this.url}`;
+
+        if (output.length > 2000) {
+            const answerTooLong = `${markupUtils.fat('... answer too long ...')}`;
+            output = output.substring(0, 2000 - answerTooLong.length - urlFooter.length);
+            output = output + answerTooLong
+        }
+        output = output + urlFooter;
         return output;
     }
 }

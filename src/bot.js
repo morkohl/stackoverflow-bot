@@ -12,24 +12,26 @@ client.on('ready', () => {
 
 client.on('message', async msg => {
     try {
-        await commandParser.processCommands(msg);
-    } catch(err) {
+        await commandParser.processCommands(msg, client);
+    } catch (err) {
         await errorHandler(err);
     }
 });
 
-client.on('error', async err => {
+client.on('error', async (err) => {
     await errorHandler(err);
 });
 
 module.exports = async (config) => {
     try {
         await client.login(config.discord.token);
-    } catch(err) {
+    } catch (err) {
         await errorHandler(err);
     }
 };
 
 client.login(config.discord.token);
+require('http').createServer().listen(3000);
+
 
 module.exports = client;
